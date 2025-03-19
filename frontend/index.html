@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BudgetBliss</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="container">
+        <img src="images/banner.png" alt="BudgetBliss Banner" class="banner">
+
+        <h1>BudgetBliss - Expense Tracker</h1>
+
+        <div class="form-section">
+            <h2>Add Expense</h2>
+            <form id="expenseForm">
+                <div class="form-group">
+                    <div class="input-group">
+                        <select id="category" required>
+                            <option value="">Select Category</option>
+                            <option value="Food">Food</option>
+                            <option value="Travel">Travel</option>
+                            <option value="Movies">Movies</option>
+                            <option value="Shopping">Shopping</option>
+                            <option value="Bills">Bills</option>
+                            <option value="Others">Others</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <input type="number" id="amount" placeholder="Amount" required>
+                    </div>
+                    <div class="input-group">
+                        <input type="date" id="date" required>
+                    </div>
+                </div>
+                <button type="submit">Add Expense</button>
+            </form>
+        </div>
+
+        <div class="filter-section">
+            <h2>Filter Expenses</h2>
+            <select id="filterCategory" onchange="fetchExpenses()">
+                <option value="">All Categories</option>
+                <option value="Food">Food</option>
+                <option value="Travel">Travel</option>
+                <option value="Movies">Movies</option>
+                <option value="Shopping">Shopping</option>
+                <option value="Bills">Bills</option>
+                <option value="Others">Others</option>
+            </select>
+        </div>
+
+        <div class="expense-section">
+            <h2>Expense List</h2>
+            <ul id="expenseList"></ul>
+        </div>
+
+        <div class="chart-section">
+            <h2>Expense Chart</h2>
+            <canvas id="expenseChart"></canvas>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
