@@ -25,7 +25,7 @@
 <ul>
     <li><strong>Frontend:</strong> HTML, CSS, JavaScript (Vanilla JS)</li>
     <li><strong>Backend:</strong> Node.js (Express)</li>
-    <li><strong>Database:</strong> MySQL or MongoDB</li>
+    <li><strong>Database:</strong> MongoDB</li>
 </ul>
 
 <hr>
@@ -34,7 +34,7 @@
 <ul>
     <li><strong>Simple & Intuitive</strong> – No AI, just easy manual tracking</li>
     <li><strong>Clear Financial Insights</strong> – Helps users manage money better</li>
-    <li><strong>Lightweight & Fast</strong> – Built with a minimalistic approach</li>
+    <li><strong>Lightweight & Fast</strong> – Easy UI </li>
 </ul>
 
 <hr>
