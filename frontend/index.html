@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BudgetBliss</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="container">
+        <img src="images/banner.png" alt="BudgetBliss Banner" class="banner">
+
+        <h1>BudgetBliss - Expense Tracker</h1>
+
+        <!-- Add Expense Form -->
+        <div class="section-box form-section">
+            <h2>Add Expense</h2>
+            <form id="expenseForm">
+                <div class="form-group">
+                    <div class="input-group">
+                        <select id="category" required>
+                            <option value="">Select Category</option>
+                            <option value="Food">Food</option>
+                            <option value="Travel">Travel</option>
+                            <option value="Movies">Movies</option>
+                            <option value="Shopping">Shopping</option>
+                            <option value="Bills">Bills</option>
+                            <option value="Others">Others</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <input type="number" id="amount" placeholder="Amount (₹)" required>
+                    </div>
+                    <div class="input-group">
+                        <input type="date" id="date" required>
+                    </div>
+                </div>
+                <button type="submit">Add Expense</button>
+            </form>
+        </div>
+
+        <!-- Budget, Balance & Expense List (Aligned in One Row) -->
+        <div class="main-sections">
+            <div class="section-box budget-section">
+                <h2>Set Budget</h2>
+                <input type="number" id="dailyBudget" placeholder="Daily Budget (₹)">
+                <input type="number" id="weeklyBudget" placeholder="Weekly Budget (₹)">
+                <input type="number" id="monthlyBudget" placeholder="Monthly Budget (₹)">
+                <button onclick="setBudget()">Save Budget</button>
+            </div>
+
+            <div class="section-box balance-section">
+                <h2>Balance</h2>
+                <p>Daily Balance: ₹<span id="dailyBalance">0</span></p>
+                <p>Weekly Balance: ₹<span id="weeklyBalance">0</span></p>
+                <p>Monthly Balance: ₹<span id="monthlyBalance">0</span></p>
+            </div>
+
+            <div class="section-box expense-section">
+                <h2>Expense List</h2>
+                <ul id="expenseList"></ul>
+                <p>Total Spending: ₹<span id="totalSpending">0</span></p>
+            </div>
+        </div>
+
+        <!-- Filter Expenses Section -->
+        <div class="section-box filter-section">
+            <h2>Filter Expenses</h2>
+            <select id="filterCategory" onchange="fetchExpenses()">
+                <option value="">All Categories</option>
+                <option value="Food">Food</option>
+                <option value="Travel">Travel</option>
+                <option value="Movies">Movies</option>
+                <option value="Shopping">Shopping</option>
+                <option value="Bills">Bills</option>
+                <option value="Others">Others</option>
+            </select>
+        </div>
+
+        <!-- Expense Chart Section -->
+        <div class="section-box chart-section">
+            <h2>Expense Chart</h2>
+            <canvas id="expenseChart"></canvas>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

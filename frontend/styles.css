@@ -1,0 +1,181 @@
+/* ===== Dark Theme and General Layout ===== */
+body {
+    font-family: 'Arial', sans-serif;
+    text-align: center;
+    background: #121826;
+    color: #E0E0E0;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 90%;
+    min-width: 320px;
+    width: 60%;
+    margin: auto;
+    background: #1A202C;
+    padding: 20px;
+    margin-top: 20px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+    border-radius: 12px;
+}
+
+/* ===== Banner (Ensure Full Image is Visible) ===== */
+.banner {
+    width: 100%;
+    height: auto;
+    max-height: 300px;
+    object-fit: contain;
+    border-radius: 10px;
+}
+
+/* ===== Headings ===== */
+h1, h2 {
+    color: #4A90E2;
+}
+
+/* ===== Uniform Styling for All Sections ===== */
+.section-box {
+    background: #2D3748;
+    padding: 20px;
+    border-radius: 10px;
+    margin-top: 20px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* ===== Form Styling (For Add Expense & Filter Section) ===== */
+.form-section,
+.filter-section {
+    background: #2D3748;
+    padding: 20px;
+    border-radius: 10px;
+    margin-top: 20px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* ===== Expense Chart Box (New Section) ===== */
+.chart-section {
+    background: #2D3748;
+    padding: 20px;
+    border-radius: 10px;
+    margin-top: 20px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+
+.chart-section canvas {
+    max-width: 100%;
+    height: 300px;
+}
+
+/* ===== Form Inputs Styling (Ensures Same Size) ===== */
+.input-group select,
+.input-group input,
+.filter-section select {
+    width: 100%;
+    height: 45px;
+    padding: 10px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    background: #1A202C;
+    border: 1px solid #4A90E2;
+    color: #E0E0E0;
+    text-align: center;
+    appearance: none;
+    box-sizing: border-box;
+}
+
+/* Fix select dropdown arrow */
+.input-group select, .filter-section select {
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path fill="white" d="M7 10l5 5 5-5z"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 16px;
+    padding-right: 30px;
+}
+
+/* ===== Buttons Styling (Uniform for All Buttons) ===== */
+button {
+    width: 100%;
+    height: 45px;
+    background: #4A90E2;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 10px;
+    transition: background 0.3s ease;
+    border: none;
+}
+
+button:hover {
+    background: #2868A8;
+}
+
+/* ===== Balance Section Styling ===== */
+.balance-section span {
+    font-weight: bold;
+    color: #FFD700;
+}
+
+/* ===== Expense List Styling ===== */
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+ul li {
+    background: #1A202C;
+    padding: 12px;
+    margin: 5px 0;
+    border-radius: 8px;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-left: 5px solid #4A90E2;
+}
+
+/* ===== Responsive Design (Ensures Sections Stack on Small Screens) ===== */
+@media (max-width: 768px) {
+    .container {
+        width: 90%;
+    }
+    
+    .form-group {
+        flex-direction: column;
+    }
+
+    .input-group {
+        width: 100%;
+    }
+
+    button {
+        width: 100%;
+    }
+
+    .chart-section canvas {
+        height: 250px;
+    }
+}
+
+/* ===== Fix for Budget Section Inputs ===== */
+.budget-section input {
+    width: 100%; /* Make them full width */
+    height: 45px;
+    padding: 10px;
+    border: 1px solid #4A90E2;
+    border-radius: 8px;
+    background: #1A202C; /* Match Dark Theme */
+    color: #E0E0E0; /* Light Text */
+    font-size: 16px;
+    text-align: center;
+    box-sizing: border-box;
+}
+
+/* Add Focus Effect */
+.budget-section input:focus {
+    outline: none;
+    box-shadow: 0px 0px 8px rgba(74, 144, 226, 0.8);
+}
