@@ -7,7 +7,7 @@
 <hr>
 <h2>Key Features</h2>
 <ul>
-    <li><strong>Budget Tracking:</strong> Set daily, weekly, and monthly spending limits.</li>
+    <li><strong>Budget Tracking:</strong> Set daily, weekly, and monthly spending limits. </li>
     <li><strong>Balance Calculation:</strong> View remaining balance as <code>Balance = Budget - Spending</code>.</li>
     <li><strong>Manual Expense Categorization:</strong> Users select categories for their expenses (Food, Transport, Bills, etc.).</li>
     <li><strong>Goal Setting:</strong> Set savings goals and track progress.</li>
