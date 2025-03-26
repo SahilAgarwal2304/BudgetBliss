@@ -27,6 +27,6 @@
 <ul>
     <li><strong>Simple & Intuitive</strong> – No AI, just easy manual tracking.</li>
     <li><strong>Clear Financial Insights</strong> – Helps users manage money better.</li>
-    <li><strong>Lightweight & Fast</strong> – Easy UI.</li>
+    <li><strong>Lightweight & Fast</strong> – Easy UI and Easy to understand UX.</li>
 </ul>
 <hr>
