@@ -1,0 +1,72 @@
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 214 33% 9%;
+    --foreground: 0 0% 98%;
+
+    --card: 214 33% 13%;
+    --card-foreground: 0 0% 98%;
+
+    --popover: 214 33% 13%;
+    --popover-foreground: 0 0% 98%;
+
+    --primary: 165 70% 55%;
+    --primary-foreground: 214 33% 9%;
+
+    --secondary: 214 33% 17%;
+    --secondary-foreground: 0 0% 98%;
+
+    --muted: 214 33% 17%;
+    --muted-foreground: 0 0% 70%;
+
+    --accent: 165 70% 55%;
+    --accent-foreground: 214 33% 9%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 214 33% 25%;
+    --input: 214 33% 25%;
+    --ring: 165 70% 55%;
+
+    --radius: 0.75rem;
+
+    --sidebar-background: 214 33% 9%;
+    --sidebar-foreground: 0 0% 98%;
+    --sidebar-primary: 165 70% 55%;
+    --sidebar-primary-foreground: 214 33% 9%;
+    --sidebar-accent: 214 33% 17%;
+    --sidebar-accent-foreground: 0 0% 98%;
+    --sidebar-border: 214 33% 25%;
+    --sidebar-ring: 165 70% 55%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+}
+
+@layer components {
+  .budget-card {
+    @apply bg-card rounded-xl border border-border shadow-md p-5;
+  }
+  
+  .budget-gradient-button {
+    @apply bg-gradient-primary hover:opacity-90 transition-all text-budget-navy font-semibold rounded-lg;
+  }
+  
+  .budget-container {
+    @apply container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+}
