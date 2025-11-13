@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BudgetBliss - Income</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-brand">
+                <div class="logo">BB</div>
+                BudgetBliss
+            </a>
+            <ul class="nav-menu">
+                <li><a href="index.html" class="nav-link">Dashboard</a></li>
+                <li><a href="income.html" class="nav-link active">Income</a></li>
+                <li><a href="expense.html" class="nav-link">Expenses</a></li>
+                <li class="admin-controls">
+                    <button class="admin-btn" onclick="toggleAdminDropdown()">⚙️ Settings</button>
+                    <div class="admin-dropdown" id="admin-dropdown">
+                        <button onclick="showStorageInfo()">💾 Storage Info</button>
+                        <button onclick="showClearDataModal()">🚨 Clear All Data</button>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <h1>Income Management</h1>
+        
+        <div class="stats">
+            <div class="stat-card">
+                <div class="stat-label">Total Income</div>
+                <div class="stat-value" id="income-total">₹0.00</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Income Transactions</div>
+                <div class="stat-value" id="income-count">0</div>
+            </div>
+        </div>
+
+        <div class="form-container">
+            <h2>Add New Income</h2>
+            <form id="income-form">
+                <div class="form-group">
+                    <label for="text">Income Source</label>
+                    <input type="text" id="text" placeholder="Salary, Freelance, Investment..." required>
+                </div>
+                <div class="form-group">
+                    <label for="amount">Amount (₹)</label>
+                    <input type="number" id="amount" placeholder="Enter amount" min="0" step="0.01" required>
+                </div>
+                <button type="submit" class="btn">Add Income</button>
+            </form>
+        </div>
+
+        <div class="recent-transactions">
+            <h2>Income History</h2>
+            <div class="transaction-list" id="income-list">
+                <div class="empty-state">No income transactions yet</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Clear Data Modal -->
+    <div class="modal" id="clear-data-modal">
+        <div class="modal-content">
+            <h3>🚨 Clear All Data</h3>
+            <p>Are you sure you want to delete ALL your transactions? This action cannot be undone!</p>
+            <div class="modal-buttons">
+                <button onclick="hideClearDataModal()" class="btn">Cancel</button>
+                <button onclick="clearAllData()" class="btn btn-danger">Delete Everything</button>
+            </div>
+        </div>
+    </div>
+    <footer class="footer">
+        <div class="footer-content">
+            
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2024 BudgetBliss. All rights reserved. | Your Financial Freedom Starts Here! 🚀</p>
+        </div>
+    </footer>
+    <script src="script.js"></script>
+</body>
+</html>

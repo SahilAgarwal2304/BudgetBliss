@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BudgetBliss - Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-brand">
+                <div class="logo">BB</div>
+                BudgetBliss
+            </a>
+            <ul class="nav-menu">
+                <li><a href="index.html" class="nav-link">Dashboard</a></li>
+                <li><a href="income.html" class="nav-link">Income</a></li>
+                <li><a href="expense.html" class="nav-link">Expenses</a></li>
+                <li class="admin-controls">
+                    <button class="admin-btn" onclick="toggleAdminDropdown()">⚙️ Settings</button>
+                    <div class="admin-dropdown" id="admin-dropdown">
+                        <button onclick="showStorageInfo()">💾 Storage Info</button>
+                        <button onclick="showClearDataModal()">🚨 Clear All Data</button>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <h1>Financial Dashboard</h1>
+        
+        <div class="dashboard-cards">
+            <div class="card balance">
+                <h3>Total Balance</h3>
+                <div class="card-amount" id="total-balance">₹0.00</div>
+                <p>Available Funds</p>
+            </div>
+            
+            <div class="card income">
+                <h3>Total Income</h3>
+                <div class="card-amount" id="total-income">₹0.00</div>
+                <p>All Time Earnings</p>
+            </div>
+            
+            <div class="card expense">
+                <h3>Total Expenses</h3>
+                <div class="card-amount" id="total-expense">₹0.00</div>
+                <p>All Time Spending</p>
+            </div>
+        </div>
+
+        <div class="recent-transactions">
+            <h2>Recent Transactions</h2>
+            <div class="transaction-list" id="recent-transactions-list">
+                <div class="empty-state">No transactions yet</div>
+            </div>
+        </div>
+
+        <!-- Storage Information -->
+        <div class="storage-info" id="storage-info" style="display: none;">
+            <h4>📊 Storage Information</h4>
+            <div class="storage-stats">
+                <div class="storage-stat">
+                    <div class="value" id="total-transactions">0</div>
+                    <div class="label">Total Transactions</div>
+                </div>
+                <div class="storage-stat">
+                    <div class="value" id="storage-size">0 KB</div>
+                    <div class="label">Storage Used</div>
+                </div>
+                <div class="storage-stat">
+                    <div class="value" id="income-count-storage">0</div>
+                    <div class="label">Income Items</div>
+                </div>
+                <div class="storage-stat">
+                    <div class="value" id="expense-count-storage">0</div>
+                    <div class="label">Expense Items</div>
+                </div>
+            </div>
+            <div id="storage-usage-bar"></div>
+            <button onclick="hideStorageInfo()" class="btn" style="margin-top: 10px; padding: 5px 10px; width: auto;">Close</button>
+        </div>
+    </div>
+
+    <!-- Clear Data Modal -->
+    <div class="modal" id="clear-data-modal">
+        <div class="modal-content">
+            <h3>🚨 Clear All Data</h3>
+            <p>Are you sure you want to delete ALL your transactions? This action cannot be undone!</p>
+            <div class="modal-buttons">
+                <button onclick="hideClearDataModal()" class="btn">Cancel</button>
+                <button onclick="clearAllData()" class="btn btn-danger">Delete Everything</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2024 BudgetBliss. All rights reserved. | Your Financial Freedom Starts Here! 🚀</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
