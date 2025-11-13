@@ -1,4 +1,4 @@
-<h1>BudgetBliss — MVP v1</h1>
+<h1>BudgetBliss</h1>
 <p>A simple personal finance tracker built with HTML, CSS, and JavaScript.</p>
 
 <hr>
