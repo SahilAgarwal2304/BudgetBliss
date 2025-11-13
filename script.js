@@ -111,7 +111,7 @@ const Calculator = {
     },
     
     getTotalExpense(transactions) {
-        return Math.abs(transactions
+        return (transactions
             .filter(t => t.amount < 0)
             .reduce((acc, t) => acc + t.amount, 0));
     },
@@ -385,4 +385,5 @@ function initializePage() {
             link.classList.remove('active');
         }
     });
+
 }
