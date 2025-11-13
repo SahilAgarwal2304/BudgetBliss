@@ -85,5 +85,5 @@
 
 <hr>
 
-<p><b>BudgetBliss MVP v1.0</b><br>
+<p><b>BudgetBliss </b><br>
 Built by Sahil Agarwal — November 2025</p>
