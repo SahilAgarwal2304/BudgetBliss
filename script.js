@@ -1,4 +1,6 @@
-// Utility functions for localStorage
+// ==========================================
+// LocalStorage & Data Utilities
+// ==========================================
 const Storage = {
     getTransactions() {
         return JSON.parse(localStorage.getItem('transactions')) || [];
@@ -34,14 +36,12 @@ const Storage = {
         return transactions;
     },
     
-    // Clear all transactions
     clearAllTransactions() {
         localStorage.removeItem('transactions');
         return [];
     }
 };
 
-// Storage Monitor Utility
 const StorageMonitor = {
     getUsage() {
         let total = 0;
@@ -61,10 +61,8 @@ const StorageMonitor = {
     
     checkLimit() {
         const usage = this.getUsage();
-        
         if (usage.usedMB > 4.5) {
-            this.showWarning('CRITICAL: Storage almost full! ' + 
-                           `(${usage.usedMB}MB / 5MB used)`);
+            this.showWarning('CRITICAL: Storage almost full! ' + `(${usage.usedMB}MB / 5MB used)`);
             return 'critical';
         } else if (usage.usedMB > 3) {
             this.showWarning(`Warning: Storage getting full (${usage.usedMB}MB used)`);
@@ -82,11 +80,8 @@ const StorageMonitor = {
             document.body.appendChild(warning);
         }
         warning.textContent = message;
-        
         if (!message.includes('CRITICAL')) {
-            setTimeout(() => {
-                warning.remove();
-            }, 5000);
+            setTimeout(() => warning.remove(), 5000);
         }
     },
     
@@ -98,69 +93,56 @@ const StorageMonitor = {
     }
 };
 
-// Calculate statistics
 const Calculator = {
     getTotalBalance(transactions) {
         return transactions.reduce((acc, t) => acc + t.amount, 0);
     },
-    
     getTotalIncome(transactions) {
-        return transactions
-            .filter(t => t.amount > 0)
-            .reduce((acc, t) => acc + t.amount, 0);
+        return transactions.filter(t => t.amount > 0).reduce((acc, t) => acc + t.amount, 0);
     },
-    
     getTotalExpense(transactions) {
-        return (transactions
-            .filter(t => t.amount < 0)
-            .reduce((acc, t) => acc + t.amount, 0));
+        return (transactions.filter(t => t.amount < 0).reduce((acc, t) => acc + t.amount, 0));
     },
-    
     getRecentTransactions(transactions, limit = 5) {
-        return transactions
-            .sort((a, b) => new Date(b.date) - new Date(a.date))
-            .slice(0, limit);
+        return transactions.sort((a, b) => new Date(b.date) - new Date(a.date)).slice(0, limit);
     }
 };
 
-// Format currency
+// ==========================================
+// Formatting & UI Helpers
+// ==========================================
 function formatCurrency(amount) {
     return '₹' + Math.abs(amount).toFixed(2);
 }
 
-// Format date
+function formatBalance(amount) {
+    return amount < 0 ? '-₹' + Math.abs(amount).toFixed(2) : '₹' + amount.toFixed(2);
+}
+
 function formatDate(dateString) {
     return new Date(dateString).toLocaleDateString('en-IN');
 }
 
-// Admin Functions
 function toggleAdminDropdown() {
-    const dropdown = document.getElementById('admin-dropdown');
-    dropdown.classList.toggle('show');
+    document.getElementById('admin-dropdown').classList.toggle('show');
 }
 
-// Close dropdown when clicking elsewhere
 document.addEventListener('click', function(event) {
     const dropdown = document.getElementById('admin-dropdown');
-    const adminBtn = document.querySelector('.admin-btn');
-    
+    const adminBtn = document.querySelector('.admin-btn:nth-child(2)'); // The Settings button
     if (adminBtn && !adminBtn.contains(event.target) && dropdown && !dropdown.contains(event.target)) {
         dropdown.classList.remove('show');
     }
 });
 
-// Show storage information
 function showStorageInfo() {
     const transactions = Storage.getTransactions();
-    const incomeTransactions = Storage.getTransactionsByType('income');
-    const expenseTransactions = Storage.getTransactionsByType('expense');
     const usage = StorageMonitor.getUsage();
-    const remainingCapacity = StorageMonitor.estimateRemainingCapacity();
     
     document.getElementById('total-transactions').textContent = transactions.length;
     document.getElementById('storage-size').textContent = usage.usedKB + ' KB';
-    document.getElementById('income-count-storage').textContent = incomeTransactions.length;
-    document.getElementById('expense-count-storage').textContent = expenseTransactions.length;
+    document.getElementById('income-count-storage').textContent = Storage.getTransactionsByType('income').length;
+    document.getElementById('expense-count-storage').textContent = Storage.getTransactionsByType('expense').length;
     
     let usageBar = document.getElementById('storage-usage-bar');
     if (!usageBar) {
@@ -171,11 +153,11 @@ function showStorageInfo() {
     }
     
     usageBar.innerHTML = `
-        <div class="usage-fill" style="width: ${usage.percentage}%; background: ${usage.percentage > 90 ? '#ff4444' : usage.percentage > 70 ? '#ffaa00' : '#44ff44'}">
+        <div class="usage-fill" style="width: ${usage.percentage}%; background: ${usage.percentage > 90 ? 'var(--accent-danger)' : usage.percentage > 70 ? 'var(--accent-warning)' : 'var(--accent-success)'}">
             ${usage.percentage}% Used
         </div>
-        <div style="padding: 5px; font-size: 12px;">
-            ${usage.usedKB} KB / 5 MB • ~${remainingCapacity} transactions remaining
+        <div style="padding: 5px; font-size: 12px; color: var(--text-muted);">
+            ${usage.usedKB} KB / 5 MB • ~${StorageMonitor.estimateRemainingCapacity()} transactions remaining
         </div>
     `;
     
@@ -187,7 +169,6 @@ function hideStorageInfo() {
     document.getElementById('storage-info').style.display = 'none';
 }
 
-// Clear all data with confirmation modal
 function showClearDataModal() {
     document.getElementById('clear-data-modal').classList.add('show');
     toggleAdminDropdown();
@@ -204,186 +185,219 @@ function clearAllData() {
     location.reload();
 }
 
-// Dashboard specific functions
+// ==========================================
+// Page Initializers
+// ==========================================
 function initializeDashboard() {
-    updateDashboard();
-    StorageMonitor.checkLimit();
-}
-
-function updateDashboard() {
     const transactions = Storage.getTransactions();
     const balance = Calculator.getTotalBalance(transactions);
-    const income = Calculator.getTotalIncome(transactions);
-    const expense = Calculator.getTotalExpense(transactions);
-    const recentTransactions = Calculator.getRecentTransactions(transactions, 5);
+    
+    const balanceEl = document.getElementById('total-balance');
+    balanceEl.textContent = formatBalance(balance);
+    balanceEl.style.color = balance < 0 ? 'var(--accent-danger)' : 'var(--accent-primary)';
 
-    document.getElementById('total-balance').textContent = formatCurrency(balance);
-    document.getElementById('total-income').textContent = formatCurrency(income);
-    document.getElementById('total-expense').textContent = formatCurrency(expense);
+    document.getElementById('total-income').textContent = formatCurrency(Calculator.getTotalIncome(transactions));
+    document.getElementById('total-expense').textContent = formatCurrency(Calculator.getTotalExpense(transactions));
 
     const recentList = document.getElementById('recent-transactions-list');
+    const recentTransactions = Calculator.getRecentTransactions(transactions, 5);
+    
     if (recentTransactions.length === 0) {
         recentList.innerHTML = '<div class="empty-state">No transactions yet</div>';
     } else {
-        recentList.innerHTML = recentTransactions.map(transaction => `
+        recentList.innerHTML = recentTransactions.map(t => `
             <div class="transaction-item">
                 <div class="transaction-info">
-                    <div class="transaction-text">${transaction.text}</div>
-                    <div class="transaction-date">${formatDate(transaction.date)}</div>
+                    <div class="transaction-text">${t.text}</div>
+                    <div class="transaction-date">${formatDate(t.date)}</div>
                 </div>
-                <div class="transaction-amount ${transaction.amount >= 0 ? 'positive' : 'negative'}">
-                    ${transaction.amount >= 0 ? '+' : '-'}${formatCurrency(transaction.amount)}
+                <div class="transaction-amount ${t.amount >= 0 ? 'positive' : 'negative'}">
+                    ${t.amount >= 0 ? '+' : '-'}${formatCurrency(t.amount)}
                 </div>
             </div>
         `).join('');
     }
+    StorageMonitor.checkLimit();
 }
 
-// Income page functions
 function initializeIncomePage() {
     updateIncomeList();
     StorageMonitor.checkLimit();
-    
     const form = document.getElementById('income-form');
     if (form) {
-        form.addEventListener('submit', handleIncomeSubmit);
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const text = document.getElementById('text').value.trim();
+            const amount = parseFloat(document.getElementById('amount').value);
+            if (!text || !amount || amount <= 0) return alert('Invalid entry');
+            Storage.addTransaction({ text, amount });
+            form.reset();
+            updateIncomeList();
+        });
     }
-}
-
-function handleIncomeSubmit(e) {
-    e.preventDefault();
-    const text = document.getElementById('text').value.trim();
-    const amount = parseFloat(document.getElementById('amount').value);
-    
-    if (!text || !amount || amount <= 0) {
-        alert('Please enter valid description and positive amount');
-        return;
-    }
-    
-    Storage.addTransaction({ text, amount });
-    document.getElementById('income-form').reset();
-    updateIncomeList();
-    alert('Income added successfully!');
 }
 
 function updateIncomeList() {
-    const incomeTransactions = Storage.getTransactionsByType('income');
+    const transactions = Storage.getTransactionsByType('income');
     const list = document.getElementById('income-list');
     
-    if (incomeTransactions.length === 0) {
-        list.innerHTML = '<div class="empty-state">No income transactions yet</div>';
-    } else {
-        list.innerHTML = incomeTransactions.map(transaction => `
+    list.innerHTML = transactions.length === 0 
+        ? '<div class="empty-state">No income transactions yet</div>'
+        : transactions.map(t => `
             <div class="transaction-item">
                 <div class="transaction-info">
-                    <div class="transaction-text">${transaction.text}</div>
-                    <div class="transaction-date">${formatDate(transaction.date)}</div>
+                    <div class="transaction-text">${t.text}</div>
+                    <div class="transaction-date">${formatDate(t.date)}</div>
                 </div>
-                <div class="transaction-amount positive">
-                    +${formatCurrency(transaction.amount)}
-                </div>
-                <button class="delete-btn" onclick="deleteIncomeTransaction(${transaction.id})">Delete</button>
+                <div class="transaction-amount positive">+${formatCurrency(t.amount)}</div>
+                <button class="delete-btn" onclick="deleteIncomeTransaction(${t.id})">Del</button>
             </div>
         `).join('');
-    }
-    
-    const totalIncome = Calculator.getTotalIncome(Storage.getTransactions());
-    const incomeCount = incomeTransactions.length;
-    
-    document.getElementById('income-total').textContent = formatCurrency(totalIncome);
-    document.getElementById('income-count').textContent = incomeCount;
+        
+    document.getElementById('income-total').textContent = formatCurrency(Calculator.getTotalIncome(Storage.getTransactions()));
+    document.getElementById('income-count').textContent = transactions.length;
 }
 
 function deleteIncomeTransaction(id) {
-    if (confirm('Are you sure you want to delete this income transaction?')) {
+    if (confirm('Delete this record?')) {
         Storage.deleteTransaction(id);
         updateIncomeList();
     }
 }
 
-// Expense page functions
 function initializeExpensePage() {
     updateExpenseList();
     StorageMonitor.checkLimit();
-    
     const form = document.getElementById('expense-form');
     if (form) {
-        form.addEventListener('submit', handleExpenseSubmit);
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const text = document.getElementById('text').value.trim();
+            const amount = parseFloat(document.getElementById('amount').value);
+            if (!text || !amount || amount <= 0) return alert('Invalid entry');
+            Storage.addTransaction({ text, amount: -amount });
+            form.reset();
+            updateExpenseList();
+        });
     }
-}
-
-function handleExpenseSubmit(e) {
-    e.preventDefault();
-    const text = document.getElementById('text').value.trim();
-    const amount = parseFloat(document.getElementById('amount').value);
-    
-    if (!text || !amount || amount <= 0) {
-        alert('Please enter valid description and positive amount');
-        return;
-    }
-    
-    Storage.addTransaction({ text, amount: -amount });
-    document.getElementById('expense-form').reset();
-    updateExpenseList();
-    alert('Expense added successfully!');
 }
 
 function updateExpenseList() {
-    const expenseTransactions = Storage.getTransactionsByType('expense');
+    const transactions = Storage.getTransactionsByType('expense');
     const list = document.getElementById('expense-list');
     
-    if (expenseTransactions.length === 0) {
-        list.innerHTML = '<div class="empty-state">No expense transactions yet</div>';
-    } else {
-        list.innerHTML = expenseTransactions.map(transaction => `
+    list.innerHTML = transactions.length === 0 
+        ? '<div class="empty-state">No expense transactions yet</div>'
+        : transactions.map(t => `
             <div class="transaction-item">
                 <div class="transaction-info">
-                    <div class="transaction-text">${transaction.text}</div>
-                    <div class="transaction-date">${formatDate(transaction.date)}</div>
+                    <div class="transaction-text">${t.text}</div>
+                    <div class="transaction-date">${formatDate(t.date)}</div>
                 </div>
-                <div class="transaction-amount negative">
-                    -${formatCurrency(transaction.amount)}
-                </div>
-                <button class="delete-btn" onclick="deleteExpenseTransaction(${transaction.id})">Delete</button>
+                <div class="transaction-amount negative">-${formatCurrency(t.amount)}</div>
+                <button class="delete-btn" onclick="deleteExpenseTransaction(${t.id})">Del</button>
             </div>
         `).join('');
-    }
-    
-    const totalExpense = Calculator.getTotalExpense(Storage.getTransactions());
-    const expenseCount = expenseTransactions.length;
-    
-    document.getElementById('expense-total').textContent = formatCurrency(totalExpense);
-    document.getElementById('expense-count').textContent = expenseCount;
+        
+    document.getElementById('expense-total').textContent = formatCurrency(Calculator.getTotalExpense(Storage.getTransactions()));
+    document.getElementById('expense-count').textContent = transactions.length;
 }
 
 function deleteExpenseTransaction(id) {
-    if (confirm('Are you sure you want to delete this expense transaction?')) {
+    if (confirm('Delete this record?')) {
         Storage.deleteTransaction(id);
         updateExpenseList();
     }
 }
 
-// Initialize page based on current page
-document.addEventListener('DOMContentLoaded', function() {
-    initializePage();
-    
-    if (window.location.pathname.includes('index.html') || window.location.pathname === '/') {
-        initializeDashboard();
-    } else if (window.location.pathname.includes('income.html')) {
-        initializeIncomePage();
-    } else if (window.location.pathname.includes('expense.html')) {
-        initializeExpensePage();
-    }
-});
+// ==========================================
+// Export / Import Features
+// ==========================================
+function exportData() {
+    const transactions = Storage.getTransactions();
+    if (transactions.length === 0) return alert("No data to export.");
 
-function initializePage() {
-    const currentPage = window.location.pathname.split('/').pop() || 'index.html';
-    document.querySelectorAll('.nav-link').forEach(link => {
-        if (link.getAttribute('href') === currentPage) {
-            link.classList.add('active');
-        } else {
-            link.classList.remove('active');
+    const dataStr = JSON.stringify(transactions, null, 2);
+    const dataBlob = new Blob([dataStr], { type: 'application/json' });
+    const url = URL.createObjectURL(dataBlob);
+    
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `BudgetBliss_Backup_${new Date().toISOString().split('T')[0]}.json`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    toggleAdminDropdown();
+}
+
+function triggerImport() {
+    document.getElementById('import-file').click();
+    toggleAdminDropdown();
+}
+
+function importData(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        try {
+            const importedData = JSON.parse(e.target.result);
+            if (!Array.isArray(importedData)) throw new Error("Invalid file format.");
+            Storage.saveTransactions(importedData);
+            alert('Data restored successfully!');
+            location.reload();
+        } catch (error) {
+            alert('Failed to import data: ' + error.message);
         }
+    };
+    reader.readAsText(file);
+    event.target.value = '';
+}
+
+// ==========================================
+// Theme Management
+// ==========================================
+function initTheme() {
+    const savedTheme = localStorage.getItem('theme') || 'dark';
+    document.documentElement.setAttribute('data-theme', savedTheme);
+    updateThemeIcon(savedTheme);
+}
+
+function toggleTheme() {
+    const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
+    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    
+    document.documentElement.setAttribute('data-theme', newTheme);
+    localStorage.setItem('theme', newTheme);
+    updateThemeIcon(newTheme);
+}
+
+function updateThemeIcon(theme) {
+    const btn = document.getElementById('theme-toggle-btn');
+    if (btn) {
+        btn.innerHTML = theme === 'dark' ? '☀️' : '🌙';
+    }
+}
+
+// ==========================================
+// Bootstrapper
+// ==========================================
+document.addEventListener('DOMContentLoaded', function() {
+    const path = window.location.pathname;
+    const page = path.split('/').pop() || 'index.html';
+    
+    // Set active nav link
+    document.querySelectorAll('.nav-link').forEach(link => {
+        link.classList.toggle('active', link.getAttribute('href') === page);
     });
 
-}
+    // Initialize page components
+    if (page === 'index.html' || path === '/') initializeDashboard();
+    else if (page === 'income.html') initializeIncomePage();
+    else if (page === 'expense.html') initializeExpensePage();
+    
+    // Initialize Theme
+    initTheme();
+});

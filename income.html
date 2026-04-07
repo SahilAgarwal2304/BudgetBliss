@@ -18,8 +18,11 @@
                 <li><a href="income.html" class="nav-link active">Income</a></li>
                 <li><a href="expense.html" class="nav-link">Expenses</a></li>
                 <li class="admin-controls">
+                    <button id="theme-toggle-btn" class="admin-btn" onclick="toggleTheme()" aria-label="Toggle Theme">☀️</button>
                     <button class="admin-btn" onclick="toggleAdminDropdown()">⚙️ Settings</button>
                     <div class="admin-dropdown" id="admin-dropdown">
+                        <button onclick="exportData()">📤 Export Backup</button>
+                        <button onclick="triggerImport()">📥 Import Backup</button>
                         <button onclick="showStorageInfo()">💾 Storage Info</button>
                         <button onclick="showClearDataModal()">🚨 Clear All Data</button>
                     </div>
@@ -65,7 +68,6 @@
         </div>
     </div>
 
-    <!-- Clear Data Modal -->
     <div class="modal" id="clear-data-modal">
         <div class="modal-content">
             <h3>🚨 Clear All Data</h3>
@@ -76,18 +78,14 @@
             </div>
         </div>
     </div>
-    <footer class="footer">
-        <div class="footer-content">
-            
-                </div>
-            </div>
-        </div>
 
+    <footer class="footer">
         <div class="footer-bottom">
-            <p>&copy; 2025 BudgetBliss. All rights reserved. | Your Financial Freedom Starts Here! 🚀</p>
+            <p>&copy; 2026 BudgetBliss. All rights reserved. | Built by Sahil Agarwal</p>
         </div>
     </footer>
+    
+    <input type="file" id="import-file" accept=".json" style="display: none;" onchange="importData(event)">
     <script src="script.js"></script>
 </body>
-
 </html>
